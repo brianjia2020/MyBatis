@@ -9,3 +9,8 @@
 
 *.jar
 *.class
+.gitignore
+
+/libraries/
+../lib/
+../out/
