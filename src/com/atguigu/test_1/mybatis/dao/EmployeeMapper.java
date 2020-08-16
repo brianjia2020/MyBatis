@@ -1,6 +1,6 @@
-package com.atguigu.mybatis.dao;
+package com.atguigu.test_1.mybatis.dao;
 
-import com.atguigu.mybatis.bean.Employee;
+import com.atguigu.test_1.mybatis.bean.Employee;
 
 public interface EmployeeMapper {
     public Employee getEmpById(Integer id);

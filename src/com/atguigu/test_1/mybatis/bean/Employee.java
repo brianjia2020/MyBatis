@@ -1,4 +1,4 @@
-package com.atguigu.mybatis.bean;
+package com.atguigu.test_1.mybatis.bean;
 
 import org.apache.ibatis.type.Alias;
 

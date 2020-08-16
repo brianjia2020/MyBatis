@@ -1,7 +1,8 @@
-package com.atguigu.mybatis.test;
+package com.atguigu.test_2.mybatis.test;
 
-import com.atguigu.mybatis.bean.Employee;
-import com.atguigu.mybatis.dao.EmployeeMapper;
+import com.atguigu.test_2.mybatis.bean.Employee;
+import com.atguigu.test_2.mybatis.dao.EmployeeMapper;
+import com.atguigu.test_2.mybatis.dao.EmployeeMapperAnnotation;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -19,7 +20,7 @@ import java.io.InputStream;
  * 4. mapper interface has no implemented class but mybatis will generate a proxy class
  *          EmployeeMapper empMapper = sqlSession.getMapper(EmployeeMapper.class)
  * 5. two important configuration xml files
- *      1.mybatis-config.xml ===> including environments,database credentials
+ *      1.mybatis-com.atguigu.test_1.config.xml ===> including environments,database credentials
  *      2.actual class mappers ====> sql statements, mapper
  */
 public class MyBatisTest {
@@ -47,11 +48,46 @@ public class MyBatisTest {
         } finally {
             openSession.close();
         }
+    }
+
+    @Test
+    public void test03() throws Exception {
+        SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
+        SqlSession openSession = sqlSessionFactory.openSession();
+        try {
+            EmployeeMapperAnnotation mapper = openSession.getMapper(EmployeeMapperAnnotation.class);
+            Employee emp = mapper.getEmpById(1);
+            System.out.println(emp);
+        } finally {
+            openSession.close();
+        }
+    }
+
+    /**
+     * test CRUD operation
+     */
+    @Test
+    public void test04() throws Exception {
+        SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
+        //this openSession does not do auto-commit
+        SqlSession openSession = sqlSessionFactory.openSession();
+        try{
+            EmployeeMapper mapper = openSession.getMapper(EmployeeMapper.class);
+            Employee employee = new Employee(null,"jerry123","jerry@163.com","0");
+            mapper.addEmp(employee);
+            System.out.println(employee.getId());
+//            Employee employee = new Employee(1,"jerry","jerry@163.com","1");
+//            mapper.updateEmp(employee);
+//            mapper.deleteEmpById(2);
+            openSession.commit();
+        } finally {
+            openSession.close();
+        }
 
     }
 
     public SqlSessionFactory getSqlSessionFactory() throws Exception{
-        String resource = "config/mybatis-config.xml";
+        String resource = "com/atguigu/test_2/config/mybatis-config.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);
         return new SqlSessionFactoryBuilder().build(inputStream);
     }

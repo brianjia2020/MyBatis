@@ -3,25 +3,30 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-    <properties resource="config/dbconfig.properties"/>
+    <properties resource="com/atguigu/test_1/config/dbconfig.properties"/>
     <settings>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
 <!--    <typeAliases>-->
-<!--        <typeAlias type="com.atguigu.mybatis.bean.Employee" alias="employee" />-->
-<!--        <package name="com.atguigu.mybatis.bean"/>-->
+<!--        <typeAlias type="com.atguigu.test_1.mybatis.bean.Employee" alias="employee" />-->
+<!--        <package name="com.atguigu.test_1.mybatis.bean"/>-->
 <!--    </typeAliases>-->
     <!--
         environments
             transactionManager ===> transaction type
                 type ===>JDBC or MANAGED or self_defined
             dataSource
-                type ===>POOLED or UNPOOLED or JNDI
+                type ===>POOLED or UNPOOLED or JNDI or self_defined
     -->
     <environments default="development">
         <environment id="test">
-            <transactionManager type=""></transactionManager>
-            <dataSource type=""></dataSource>
+            <transactionManager type="JDBC" />
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
         </environment>
         <environment id="development">
             <transactionManager type="JDBC" />
@@ -34,7 +39,13 @@
         </environment>
 
     </environments>
+    <databaseIdProvider type="DB_VENDOR">
+        <property name="MySQL" value="mysql"/>
+        <property name="Oracle" value="oracle"/>
+        <property name="Sql Server" value="sqlserver"/>
+    </databaseIdProvider>
     <mappers>
-        <mapper resource="config/EmployeeMapper.xml" />
+        <mapper resource="com/atguigu/test_2/config/EmployeeMapper.xml" />
+        <mapper class="com.atguigu.test_2.mybatis.dao.EmployeeMapperAnnotation" />
     </mappers>
 </configuration>
