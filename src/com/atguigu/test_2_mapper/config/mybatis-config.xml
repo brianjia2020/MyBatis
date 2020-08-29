@@ -6,6 +6,10 @@
     <properties resource="com/atguigu/test_1/config/dbconfig.properties"/>
     <settings>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="jdbcTypeForNull" value="NULL"/>
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="aggressiveLazyLoading" value="false"/>
+        <setting name="cacheEnabled" value="true"/>
     </settings>
 <!--    <typeAliases>-->
 <!--        <typeAlias type="com.atguigu.test_1.mybatis.bean.Employee" alias="employee" />-->
@@ -45,7 +49,9 @@
         <property name="Sql Server" value="sqlserver"/>
     </databaseIdProvider>
     <mappers>
-        <mapper resource="com/atguigu/test_2/config/EmployeeMapper.xml" />
-        <mapper class="com.atguigu.test_2.mybatis.dao.EmployeeMapperAnnotation" />
+        <mapper resource="com/atguigu/test_2_mapper/config/EmployeeMapper.xml" />
+        <mapper resource="com/atguigu/test_2_mapper/config/EmployeeMapperPlus.xml"/>
+        <mapper resource="com/atguigu/test_2_mapper/config/DepartmentMapper.xml"/>
+        <mapper class="com.atguigu.test_2_mapper.mybatis.dao.EmployeeMapperAnnotation" />
     </mappers>
 </configuration>

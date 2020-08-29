@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.test_3_dynamaic_sql.mybatis.dao.EmployeeMapperDynamicSQL">
+    <cache eviction="" blocking="" flushInterval="60000" readOnly="" size="" type=""/>
+    <!--
+        eviction: LRU(default),FIFO,SOFT,WEAK
+        flushInterval: how long to clear the cache, default is not to clear
+        readOnly: cache read only
+        size: how many elements in cache
+        type: define self-defined cache full type name, to implement the Cache interface
+    -->
+    <select id="getEmpsByConditionIf" resultType="com.atguigu.test_3_dynamaic_sql.mybatis.bean.Employee">
+        select id, last_name, email, gender from tbl_employee
+        <!--ognl expression-->
+        <where>
+            <if test="id!=null">
+                id = #{id}
+            </if>
+            <if test="lastName!=null &amp;&amp; lastName != &quot;&quot;">
+                and last_name like #{lastName}
+            </if>
+            <if test="email != null and email.trim() != &quot;&quot;">
+                and email = #{email}
+            </if>
+            <if test="gender == 0 or gender == 1">
+                and gender = #{gender}
+            </if>
+        </where>
+    </select>
+    
+    <!--public List<Employee> getEmpsByConditionTrim(Employee employee);-->
+    <select id="getEmpsByConditionTrim" resultType="com.atguigu.test_3_dynamaic_sql.mybatis.bean.Employee">
+        select * from tbl_employee
+
+        <trim prefix="where" suffixOverrides="and">
+            <if test="id!=null">
+                id = #{id} and
+            </if>
+            <if test="lastName!=null &amp;&amp; lastName != &quot;&quot;">
+                last_name like #{lastName} and
+            </if>
+            <if test="email != null and email.trim() != &quot;&quot;">
+                email = #{email} and
+            </if>
+            <if test="gender == 0 or gender == 1">
+                gender = #{gender} and
+            </if>
+        </trim>
+    </select>
+
+    <!--public List<Employee> getEmpsByConditionChoose(Employee employee);-->
+    <select id="getEmpsByConditionChoose" resultType="com.atguigu.test_3_dynamaic_sql.mybatis.bean.Employee">
+        select * from tbl_employee
+        <where>
+            <choose>
+                <when test="id!=null">
+                    id=#{id}
+                </when>
+                <when test="lastName!=null">
+                    last_name like #{lastName}
+                </when>
+                <when test="email!=null">
+                    email = #{email}
+                </when>
+                <otherwise>
+                    1=1
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <!--public void updateEmp(Employee employee);-->
+    <update id="updateEmp">
+        update tbl_employee
+        <set>
+            <if test="lastName!=null">
+                last_name = #{lastName},
+            </if>
+            <if test="email!=null">
+                email = #{email},
+            </if>
+            <if test="gender!=null">
+                gender = #{gender},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <!--public List<Employee> getEmpsByConditionForeach(List<Integer> items);-->
+    <select id="getEmpsByConditionForeach" resultType="com.atguigu.test_3_dynamaic_sql.mybatis.bean.Employee">
+        select * from tbl_employee where id in
+        <foreach collection="list" item="item_id"
+                 separator="," open="(" close=")">
+            #{item_id}
+        </foreach>
+
+    </select>
+
+    <!--public void addEmps(@Param("emps") List<Employee> employees);-->
+    <insert id="addEmps">
+<!--        insert into tbl_employee(last_name,email,gender,d_id)-->
+<!--        values-->
+<!--        <foreach collection="emps" item="emp"-->
+<!--                 separator=",">-->
+<!--            (#{emp.lastName},#{emp.email},#{emp.gender},#{emp.dept.id})-->
+<!--        </foreach>-->
+        <foreach collection="emps" item="emp" separator=";">
+            insert into tbl_employee(last_name,email,gender,d_id) values
+            (#{emp.lastName},#{emp.email},#{emp.gender},#{emp.dept.id})
+        </foreach>
+    </insert>
+
+
+</mapper>

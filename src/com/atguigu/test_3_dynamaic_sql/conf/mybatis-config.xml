@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="com/atguigu/test_3_dynamaic_sql/conf/dbconfig.properties"/>
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="jdbcTypeForNull" value="NULL"/>
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="aggressiveLazyLoading" value="false"/>
+    </settings>
+<!--    <typeAliases>-->
+<!--        <typeAlias type="com.atguigu.test_1.mybatis.bean.Employee" alias="employee" />-->
+<!--        <package name="com.atguigu.test_1.mybatis.bean"/>-->
+<!--    </typeAliases>-->
+    <!--
+        environments
+            transactionManager ===> transaction type
+                type ===>JDBC or MANAGED or self_defined
+            dataSource
+                type ===>POOLED or UNPOOLED or JNDI or self_defined
+    -->
+    <environments default="development">
+        <environment id="test">
+            <transactionManager type="JDBC" />
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+        <environment id="development">
+            <transactionManager type="JDBC" />
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+
+    </environments>
+    <databaseIdProvider type="DB_VENDOR">
+        <property name="MySQL" value="mysql"/>
+        <property name="Oracle" value="oracle"/>
+        <property name="Sql Server" value="sqlserver"/>
+    </databaseIdProvider>
+    <mappers>
+        <mapper resource="com/atguigu/test_3_dynamaic_sql/conf/EmployeeMapperDynamicSQL.xml" />
+    </mappers>
+</configuration>

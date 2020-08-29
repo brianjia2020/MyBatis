@@ -1,6 +1,6 @@
-package com.atguigu.test_2.mybatis.dao;
+package com.atguigu.test_2_mapper.mybatis.dao;
 
-import com.atguigu.test_2.mybatis.bean.Employee;
+import com.atguigu.test_2_mapper.mybatis.bean.Employee;
 import org.apache.ibatis.annotations.Select;
 
 
