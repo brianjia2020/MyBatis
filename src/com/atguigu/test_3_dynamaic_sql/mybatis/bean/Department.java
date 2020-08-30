@@ -2,9 +2,10 @@ package com.atguigu.test_3_dynamaic_sql.mybatis.bean;
 
 import com.atguigu.test_3_dynamaic_sql.mybatis.bean.Employee;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Department {
+public class Department implements Serializable {
     private Integer id;
     private String departmentName;
     private List<com.atguigu.test_3_dynamaic_sql.mybatis.bean.Employee> emps;

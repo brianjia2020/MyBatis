@@ -41,4 +41,27 @@ public class MyBatisTestCache {
             openSession.close();
         }
     }
+
+
+    @Test
+    public void testSecondaryCache() throws Exception {
+        SqlSessionFactory sqlSessionFactory = getSqlSessionFactory();
+        SqlSession openSession = sqlSessionFactory.openSession();
+        SqlSession openSession2 = sqlSessionFactory.openSession();
+        try{
+            EmployeeMapper mapper = openSession.getMapper(EmployeeMapper.class);
+            EmployeeMapper mapper2 = openSession2.getMapper(EmployeeMapper.class);
+
+            Employee emp = mapper.getEmpById(1);
+            openSession.close();
+
+            Employee emp2 = mapper2.getEmpById(1);
+            openSession2.close();
+
+            System.out.println(emp==emp2);
+
+        } finally {
+            openSession.close();
+        }
+    }
 }

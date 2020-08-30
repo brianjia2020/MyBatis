@@ -3,8 +3,10 @@ package com.atguigu.test_3_dynamaic_sql.mybatis.bean;
 import com.atguigu.test_3_dynamaic_sql.mybatis.bean.Department;
 import org.apache.ibatis.type.Alias;
 
+import java.io.Serializable;
+
 @Alias("employee")
-public class Employee {
+public class Employee implements Serializable {
     private Integer id;
     private String lastName;
     private String email;
